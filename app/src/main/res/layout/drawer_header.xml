@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#A6000000"
+        android:padding="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        android:orientation="vertical"
+        android:gravity="bottom">
+
+
+    <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp" card_view:srcCompat="@drawable/ic_user" android:id="@+id/logo"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent" android:layout_marginStart="5dp"
+            android:layout_marginTop="15dp"/>
+    <TextView
+            android:text="G1W6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/decription" android:textSize="24sp"
+            android:textStyle="bold" android:textColor="#ffffff"
+            card_view:layout_constraintTop_toBottomOf="@+id/logo"
+            card_view:layout_constraintStart_toStartOf="@+id/logo" android:layout_marginTop="10dp"
+            card_view:layout_constraintEnd_toEndOf="@+id/logo" android:textAlignment="center"/>
+</android.support.constraint.ConstraintLayout>

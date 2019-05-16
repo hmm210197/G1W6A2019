@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">G1W6</string>
+    <string name="task">Task</string>
+    <string name="user">User</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+</resources>
