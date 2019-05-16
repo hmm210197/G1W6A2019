@@ -9,7 +9,9 @@ import android.view.MenuItem
 import com.npmt.g1w6.fragment.Fragment_Task
 import com.npmt.g1w6.fragment.Fragment_User
 import com.npmt.g1w6.room.*
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_task.*
+import kotlinx.android.synthetic.main.drawer_header.view.*
 
 class TaskActivity : AppCompatActivity(){
 
@@ -33,6 +35,7 @@ class TaskActivity : AppCompatActivity(){
         switchContent(Fragment_Task())
 
         //  drawer item listener
+        Picasso.get().load(R.drawable.avatar).into(nav_view.getHeaderView(0).logo)
         nav_view.menu.getItem(0).setChecked(true)
         nav_view.setNavigationItemSelectedListener{
             when(it.itemId){
