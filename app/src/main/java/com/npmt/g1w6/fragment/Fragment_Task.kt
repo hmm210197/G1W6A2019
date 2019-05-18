@@ -6,6 +6,8 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import com.npmt.g1w6.R
 import com.npmt.g1w6.adapter.Adapter_Task
@@ -37,6 +39,39 @@ class Fragment_Task : Fragment() {
             userDb = UserDatabase.invoke(it)
             userDAO = userDb.userDAO()
             userList.addAll(userDAO.getAll())
+        }
+
+        //  filter
+        var filterType = ArrayList<String>()
+        filterType.add("All")
+        filterType.add("Completed")
+        filterType.add("UnCompleted")
+        var arrayAdapter = ArrayAdapter<String>(this.context,R.layout.spinner_item,filterType)
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        filter.adapter = arrayAdapter
+        filter.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                when(parent?.getItemAtPosition(position).toString()){
+                    "All"->{
+                        taskList.clear()
+                        taskList.addAll(taskDAO.getAll())
+                        list_task.adapter?.notifyDataSetChanged()
+                    }
+                    "Completed"->{
+                        taskList.clear()
+                        taskList.addAll(taskDAO.getCompleted(true))
+                        list_task.adapter?.notifyDataSetChanged()
+                    }
+                    "UnCompleted"->{
+                        taskList.clear()
+                        taskList.addAll(taskDAO.getCompleted(false))
+                        list_task.adapter?.notifyDataSetChanged()
+                    }
+                }
+            }
+
         }
 
         //  setup adapter

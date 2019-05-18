@@ -14,6 +14,9 @@ interface TaskDAO {
     @Query("SELECT * FROM Task WHERE user_uid=:uid")
     fun getUId(uid:Int):List<Task>
 
+    @Query("SELECT * FROM Task WHERE completed=:comple")
+    fun getCompleted(comple:Boolean):List<Task>
+
     @Insert
     fun insertAll(vararg todo:Task):List<Long>
 
