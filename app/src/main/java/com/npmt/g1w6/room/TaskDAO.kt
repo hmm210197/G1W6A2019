@@ -12,7 +12,7 @@ interface TaskDAO {
     fun findById(id:Int):Task
 
     @Query("SELECT * FROM Task WHERE user_uid=:uid")
-    fun getUId(uid:Int):Task
+    fun getUId(uid:Int):List<Task>
 
     @Insert
     fun insertAll(vararg todo:Task):List<Long>

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.npmt.g1w6.R
 import com.npmt.g1w6.TaskDetailActivity
 import com.npmt.g1w6.room.Task
+import com.npmt.g1w6.room.UserDatabase
 import kotlinx.android.synthetic.main.row_task.view.*
 
 class Adapter_Task (private val list_task : ArrayList<Task>) : RecyclerView.Adapter<Adapter_Task.Task_Holder>() {
@@ -47,8 +48,11 @@ class Adapter_Task (private val list_task : ArrayList<Task>) : RecyclerView.Adap
 
         fun bindTask(task : Task){
             this.task = task
+            val userDb = UserDatabase.invoke(view.context)
+            val userDAO = userDb.userDAO()
             view.title_task.text = task.decription
-            view.task_assign.text = task.user_uid.toString()
+            task.user_uid?.let{view.task_assign.text = userDAO.findById(it).name}
+
         }
 
     }

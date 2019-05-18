@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.npmt.g1w6.R
+import com.npmt.g1w6.room.TaskDatabase
 import com.npmt.g1w6.room.User
 import com.npmt.g1w6.room.UserDatabase
 import kotlinx.android.synthetic.main.row_user.view.*
@@ -33,8 +34,12 @@ class Adapter_User (private val list_user : ArrayList<User>) : RecyclerView.Adap
         private var user : User? = null
 
         fun bindUser(user : User){
+
+            val taskDb = TaskDatabase.invoke(view.context)
+            val taskDAO = taskDb.taskDAO()
             this.user = user
             view.userName.text = user.name
+            user.id?.let{ view.numTaskAssigned.text = "Numbers task assigned: "+taskDAO.getUId(it).size }
             view.btnDeleteUser.setOnClickListener(View.OnClickListener {
                 val userDb = UserDatabase.invoke(view.context)
                 val userDAO = userDb.userDAO()

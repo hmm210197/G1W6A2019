@@ -13,4 +13,21 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+    <!-- -->
+    <style name="SwitchCompatTheme" >
+        <item name="android:thumb">@drawable/switch_thumb</item>
+        <item name="trackTint">@color/switch_track_color</item>
+    </style>
+
+    <!-- -->
+    <style name="SpinnerTheme" parent="android:Widget.DeviceDefault.Spinner">
+        <item name="android:background">@drawable/spinner_bg</item>
+        <item name="android:padding">3dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:paddingBottom">3dp</item>
+        <item name="android:paddingRight">3dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
 </resources>
