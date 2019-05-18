@@ -1,11 +1,13 @@
 package com.npmt.g1w6.fragment
 
+import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -81,9 +83,16 @@ class Fragment_Task : Fragment() {
 
         // click btn
         add_title_btn.setOnClickListener(View.OnClickListener {
+
+            val imm = activity?.applicationContext?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(getView()?.windowToken,0)
+
             val nTitle = add_title_task.text.toString()
             if(nTitle != null && nTitle != ""){
-                taskDAO.insert(Task(null,nTitle,false,null))
+                val task = Task(null,nTitle,false,null)
+                val id =   taskDAO.insert(task)
+                task.id = id.toInt()
+                taskList.add(task)
                 Toast.makeText(this.context,"Add success",Toast.LENGTH_SHORT).show()
                 add_title_task.text = null
             }else{

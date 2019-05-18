@@ -1,8 +1,8 @@
 package com.npmt.g1w6
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -10,7 +10,7 @@ import android.widget.Toast
 import com.npmt.g1w6.room.*
 import kotlinx.android.synthetic.main.activity_task_detail.*
 
-class TaskDetailActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
+class TaskDetailActivity : AppCompatActivity() {
 
     lateinit var selectedTask : Task
     var taskList : ArrayList<Task> = ArrayList()
@@ -38,6 +38,9 @@ class TaskDetailActivity : AppCompatActivity(), AdapterView.OnItemSelectedListen
         btnDelTask.setOnClickListener(View.OnClickListener {
             taskDAO.deleteTask(selectedTask)
             Toast.makeText(this,"Dell success task "+selectedTask.decription,Toast.LENGTH_SHORT).show()
+            val goMain = Intent(this,TaskActivity::class.java)
+            startActivity(goMain)
+            finish()
         })
 
         //  change switch
@@ -51,44 +54,39 @@ class TaskDetailActivity : AppCompatActivity(), AdapterView.OnItemSelectedListen
 
         //  dropdown
         var arrayUser = ArrayList<String>()
-        userDAO.getAll().forEach { arrayUser.add(it.name) }
         arrayUser.add("Unassigned")
+        userDAO.getAll().forEach { arrayUser.add(it.name) }
         //  make adapter
         var arrayAdapter = ArrayAdapter<String>(this,R.layout.spinner_item,arrayUser)
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         assigment.adapter = arrayAdapter
-        //  catch some thing
-        assigment.onItemSelectedListener = this
-
-    }
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {}
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, d: Long) {
-
-        //  get data from database
-        repeat(0){
-            val selectedTaskUID = selectedTask.user_uid
-            parent?.count?.let{
-                for(i in 0..(it-1)){
-                    Log.i("view0",parent.getItemAtPosition(i).toString())
-                    if(selectedTaskUID != null){
-                        if(userDAO.findById(selectedTaskUID).name == parent.getItemAtPosition(i).toString()){
-                            parent.setSelection(i)
-                        }
-                    }else{
-                        parent.setSelection(it-1)
-                    }
-                }
+        //  set selected from data
+        val selectedTaskUID = selectedTask.user_uid
+        for(i in 0..assigment.count-1){
+            if(selectedTaskUID!=null){
+                if(userDAO.findById(selectedTaskUID).name == assigment.getItemAtPosition(i).toString())
+                    assigment.setSelection(i)
+            }else{
+                assigment.setSelection(0)
             }
         }
+        //  catch some thing
+        assigment.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                parent?.count?.let{parent.setSelection(it-1)}
+            }
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, d: Long) {
 
-        //  tranfer data choose to Database
-        if(parent?.getItemAtPosition(position).toString()!="Unassigned") {
-            selectedTask.user_uid = userDAO.findByName(parent?.getItemAtPosition(position).toString()).id
-        }else{
-            selectedTask.user_uid = null
+                //  tranfer data choose to Database
+                if(parent?.getItemAtPosition(position).toString()!="Unassigned") {
+                    selectedTask.user_uid = userDAO.findByName(parent?.getItemAtPosition(position).toString()).id
+                }else{
+                    selectedTask.user_uid = null
+                }
+                taskDAO.updateTask(selectedTask)
+
+            }
         }
-        taskDAO.updateTask(selectedTask)
 
     }
 }

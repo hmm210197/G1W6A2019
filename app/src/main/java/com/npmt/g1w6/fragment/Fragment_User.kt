@@ -1,5 +1,6 @@
 package com.npmt.g1w6.fragment
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -7,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.npmt.g1w6.R
 import com.npmt.g1w6.adapter.Adapter_User
@@ -46,11 +48,19 @@ class Fragment_User : Fragment() {
 
         // click btn add
         add_user_btn.setOnClickListener(View.OnClickListener {
+
+            val imm = activity?.applicationContext?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(getView()?.windowToken,0)
+
+
             val nName = name_user.text.toString()
             Log.i("nName:",nName)
             if(nName != null && nName != ""){
                 Toast.makeText(this.context,"Add success", Toast.LENGTH_SHORT).show()
-                userDAO.insert(User(null,nName))
+                val nUser = User(null,nName)
+                val id = userDAO.insert(nUser)
+                nUser.id = id.toInt()
+                userList.add(nUser)
                 name_user.text = null
             }else{
                 Toast.makeText(this.context,"Not edit yet", Toast.LENGTH_SHORT).show()

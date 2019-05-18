@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import android.widget.Toast
 import com.npmt.g1w6.fragment.Fragment_Task
 import com.npmt.g1w6.fragment.Fragment_User
 import com.npmt.g1w6.room.*
@@ -62,14 +61,6 @@ class TaskActivity : AppCompatActivity(){
         //  init database
         initDatabase()
 
-        //  close keyboard
-//        val currentFocusView = this.currentFocus
-//        currentFocusView?.let{ v->
-//            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-//            imm?.let{it.hideSoftInputFromWindow(v.windowToken,0)}
-//        }
-
-
     }
 
     //  click menu(home) listener
@@ -117,11 +108,6 @@ class TaskActivity : AppCompatActivity(){
         val userList = userDAO.getAll() // get Users from ROOM database
         this.userList.clear()           // clear all before add
         this.userList.addAll(userList) // add to Users list
-    }
-
-    // when press back
-    override fun onBackPressed() {
-        Toast.makeText(this,"back pressed catch at task act",Toast.LENGTH_SHORT).show()
     }
 
 }

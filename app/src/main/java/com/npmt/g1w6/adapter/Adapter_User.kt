@@ -13,8 +13,11 @@ import kotlinx.android.synthetic.main.row_user.view.*
 
 class Adapter_User (private val list_user : ArrayList<User>) : RecyclerView.Adapter<Adapter_User.User_Holder>() {
 
+    lateinit var parent: ViewGroup
+
     //  inflat one row into parent view (recycler view)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): User_Holder{
+        this.parent = parent
         return User_Holder(LayoutInflater.from(parent.context).inflate(R.layout.row_user,parent,false))
     }
 
@@ -27,8 +30,10 @@ class Adapter_User (private val list_user : ArrayList<User>) : RecyclerView.Adap
     //  count item of list data
     override fun getItemCount() = list_user.size
 
+
+
     // holder
-    class User_Holder(v: View): RecyclerView.ViewHolder(v){
+    inner class User_Holder(v: View): RecyclerView.ViewHolder(v){
 
         private val view : View = v
         private var user : User? = null
@@ -44,6 +49,9 @@ class Adapter_User (private val list_user : ArrayList<User>) : RecyclerView.Adap
                 val userDb = UserDatabase.invoke(view.context)
                 val userDAO = userDb.userDAO()
                 userDAO.deleteUser(user)
+
+                parent.removeViewInLayout(view) // mo ca buoi troi
+
                 Toast.makeText(view.context,"Delete success user "+user.name,Toast.LENGTH_SHORT).show()
             })
             //onclick one item
