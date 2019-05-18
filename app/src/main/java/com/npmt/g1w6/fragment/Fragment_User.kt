@@ -48,13 +48,14 @@ class Fragment_User : Fragment() {
         add_user_btn.setOnClickListener(View.OnClickListener {
             val nName = name_user.text.toString()
             Log.i("nName:",nName)
-            if(nName != null && nName != "Name" && nName != ""){
+            if(nName != null && nName != ""){
                 Toast.makeText(this.context,"Add success", Toast.LENGTH_SHORT).show()
                 userDAO.insert(User(null,nName))
-                adapter.notifyDataSetChanged()
+                name_user.text = null
             }else{
                 Toast.makeText(this.context,"Not edit yet", Toast.LENGTH_SHORT).show()
             }
+            list_user.adapter?.notifyDataSetChanged()
         })
 
     }

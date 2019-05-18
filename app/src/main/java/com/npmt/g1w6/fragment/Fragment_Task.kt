@@ -82,12 +82,16 @@ class Fragment_Task : Fragment() {
         // click btn
         add_title_btn.setOnClickListener(View.OnClickListener {
             val nTitle = add_title_task.text.toString()
-            if(nTitle != null && nTitle != "Title" && nTitle != ""){
+            if(nTitle != null && nTitle != ""){
                 taskDAO.insert(Task(null,nTitle,false,null))
-                adapter.notifyDataSetChanged()
+                Toast.makeText(this.context,"Add success",Toast.LENGTH_SHORT).show()
+                add_title_task.text = null
             }else{
                 Toast.makeText(this.context,"Not edit yet",Toast.LENGTH_SHORT).show()
             }
+
+            list_task.adapter?.notifyDataSetChanged()
         })
     }
+
 }

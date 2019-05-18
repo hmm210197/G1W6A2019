@@ -51,7 +51,12 @@ class Adapter_Task (private val list_task : ArrayList<Task>) : RecyclerView.Adap
             val userDb = UserDatabase.invoke(view.context)
             val userDAO = userDb.userDAO()
             view.title_task.text = task.decription
-            task.user_uid?.let{view.task_assign.text = userDAO.findById(it).name}
+            val uid = task.user_uid
+            if(uid!=null) {
+                view.task_assign.text = userDAO.findById(uid).name
+            }else{
+                view.task_assign.text = "Do not assigned for any one"
+            }
 
         }
 
