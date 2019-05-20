@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.npmt.g1w6.R
 import com.npmt.g1w6.room.TaskDatabase
 import com.npmt.g1w6.room.User
@@ -30,7 +29,10 @@ class Adapter_User (private val list_user : ArrayList<User>) : RecyclerView.Adap
     //  count item of list data
     override fun getItemCount() = list_user.size
 
-
+    fun removeAt(position: Int) {
+        list_user.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     // holder
     inner class User_Holder(v: View): RecyclerView.ViewHolder(v){
@@ -45,19 +47,17 @@ class Adapter_User (private val list_user : ArrayList<User>) : RecyclerView.Adap
             this.user = user
             view.userName.text = user.name
             user.id?.let{ view.numTaskAssigned.text = "Numbers task assigned: "+taskDAO.getUId(it).size }
-            view.btnDeleteUser.setOnClickListener(View.OnClickListener {
-                val userDb = UserDatabase.invoke(view.context)
-                val userDAO = userDb.userDAO()
-                userDAO.deleteUser(user)
 
-                parent.removeViewInLayout(view) // mo ca buoi troi
-
-                Toast.makeText(view.context,"Delete success user "+user.name,Toast.LENGTH_SHORT).show()
-            })
             //onclick one item
 //            view.setOnClickListener(View.OnClickListener {
 //                Toast.makeText(view.context,"Success2",Toast.LENGTH_SHORT).show()
 //            })
+        }
+
+        fun delUser(){
+            val userDb = UserDatabase.invoke(view.context)
+            val userDAO = userDb.userDAO()
+            user?.let{userDAO.deleteUser(it)}
         }
 
     }

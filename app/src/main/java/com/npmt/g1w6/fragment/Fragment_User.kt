@@ -4,7 +4,8 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
+import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -54,7 +55,6 @@ class Fragment_User : Fragment() {
 
 
             val nName = name_user.text.toString()
-            Log.i("nName:",nName)
             if(nName != null && nName != ""){
                 Toast.makeText(this.context,"Add success", Toast.LENGTH_SHORT).show()
                 val nUser = User(null,nName)
@@ -67,6 +67,18 @@ class Fragment_User : Fragment() {
             }
             list_user.adapter?.notifyDataSetChanged()
         })
+
+        //  swipe to delete
+        val swipeHandler = object : SwipeToDeleteCallback(requireContext()){
+            override fun onSwiped(p0: RecyclerView.ViewHolder, p1: Int) {
+                val adapter = list_user.adapter as Adapter_User
+                adapter.removeAt(p0.adapterPosition)
+                val vh = p0 as Adapter_User.User_Holder
+                vh.delUser()
+            }
+        }
+        val itemTouchHelper = ItemTouchHelper(swipeHandler)
+        itemTouchHelper.attachToRecyclerView(list_user)
 
     }
 }

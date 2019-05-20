@@ -10,10 +10,10 @@ import com.npmt.g1w6.fragment.Fragment_Task
 import com.npmt.g1w6.fragment.Fragment_User
 import com.npmt.g1w6.room.*
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_task.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.drawer_header.view.*
 
-class TaskActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(){
 
     var taskList : ArrayList<Task> = ArrayList()
     var userList : ArrayList<User> = ArrayList()
@@ -23,7 +23,18 @@ class TaskActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_task)
+        setContentView(R.layout.activity_main)
+
+        val b = getIntent().getExtras()
+        repeat(0){
+            if(b.getBoolean("isBacked")){
+                val currentFragment = supportFragmentManager.findFragmentById(R.id.frame)
+                val transaction = supportFragmentManager.beginTransaction()
+                currentFragment?.let{
+                    transaction.detach(it).attach(it).commit()
+                }
+            }
+        }
 
         //  show icon menu (replace R.id.home)
         setSupportActionBar(toolbar)

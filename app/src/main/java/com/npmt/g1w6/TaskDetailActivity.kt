@@ -38,7 +38,7 @@ class TaskDetailActivity : AppCompatActivity() {
         btnDelTask.setOnClickListener(View.OnClickListener {
             taskDAO.deleteTask(selectedTask)
             Toast.makeText(this,"Dell success task "+selectedTask.decription,Toast.LENGTH_SHORT).show()
-            val goMain = Intent(this,TaskActivity::class.java)
+            val goMain = Intent(this,MainActivity::class.java)
             startActivity(goMain)
             finish()
         })
@@ -88,5 +88,14 @@ class TaskDetailActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    override fun onBackPressed() {
+        val goMain = Intent(this,MainActivity::class.java)
+        val b = Bundle()
+        b.putBoolean("isBacked",true)
+        goMain.putExtras(b)
+        startActivity(goMain)
+        finish()
     }
 }

@@ -12,7 +12,7 @@
         <activity android:name=".TaskDetailActivity">
         </activity>
         <activity
-                android:name=".TaskActivity"
+                android:name=".MainActivity"
                 android:windowSoftInputMode="stateHidden"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
